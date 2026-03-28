@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tsundere Systems, Inc. — Tools & Projects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;700&family=DM+Mono:wght@300;400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a12;
+    --surface: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+    --accent: #ff6b9d;
+    --accent2: #c084fc;
+    --text: #e8e8f0;
+    --muted: rgba(232,232,240,0.45);
+    --glow: rgba(255,107,157,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* --- background --- */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 20%, rgba(192,132,252,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(255,107,157,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 50% 50%, rgba(10,10,25,1) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* noise overlay */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .container {
+    position: relative; z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* --- header --- */
+  header {
+    padding: 72px 0 48px;
+    text-align: center;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .logo-mark {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(255,107,157,0.3);
+    padding: 5px 14px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, var(--accent2) 50%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+
+  .tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .desc {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 520px;
+    margin: 0 auto;
+    animation: fadeUp 0.8s 0.25s ease both;
+  }
+
+  .desc .ja { display: block; }
+  .desc .en { display: block; font-size: 13px; margin-top: 4px; opacity: 0.7; font-family: 'DM Mono', monospace; }
+
+  /* --- divider --- */
+  .divider {
+    display: flex; align-items: center; gap: 16px;
+    margin: 56px 0 40px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+  .divider span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* --- tools grid --- */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 64px;
+  }
+
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.25s, background 0.25s, transform 0.25s;
+    display: flex; flex-direction: column; gap: 10px;
+    animation: fadeUp 0.7s ease both;
+    backdrop-filter: blur(8px);
+  }
+
+  .tool-card:hover {
+    border-color: rgba(255,107,157,0.35);
+    background: rgba(255,107,157,0.05);
+    transform: translateY(-3px);
+  }
+
+  .tool-card .icon {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .tool-card .tool-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .tool-card .tool-desc-ja {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .tool-card .tool-desc-en {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(232,232,240,0.3);
+    line-height: 1.5;
+    margin-top: 2px;
+  }
+
+  .tool-card .tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    padding: 2px 8px;
+    border-radius: 2px;
+    border: 1px solid rgba(192,132,252,0.25);
+    color: var(--accent2);
+    width: fit-content;
+    margin-top: auto;
+  }
+
+  /* --- footer --- */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0 48px;
+    text-align: center;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+
+  .footer-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(232,232,240,0.2);
+    letter-spacing: 0.1em;
+  }
+
+  .x-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-decoration: none;
+    margin-top: 12px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .x-link:hover { opacity: 1; }
+
+  /* --- animations --- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* stagger tool cards */
+  .tool-card:nth-child(1) { animation-delay: 0.35s; }
+  .tool-card:nth-child(2) { animation-delay: 0.42s; }
+  .tool-card:nth-child(3) { animation-delay: 0.49s; }
+  .tool-card:nth-child(4) { animation-delay: 0.56s; }
+
+  @media (max-width: 600px) {
+    header { padding: 48px 0 32px; }
+    .tools-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="logo-mark">Tsundere Systems, Inc.</div>
+    <h1>Tools &amp; Projects</h1>
+    <p class="tagline">// AI × HUMAN COLLABORATION</p>
+    <p class="desc">
+      <span class="ja">AIと人間の協働で生まれた、ちょっと変わったツール集。</span>
+      <span class="en">A collection of tools born from AI-human collaboration.</span>
+    </p>
+  </header>
+
+  <div class="divider"><span>PROJECTS</span></div>
+
+  <div class="tools-grid">
+
+    <a class="tool-card" href="./my-html-site/">
+      <div class="icon">🔍</div>
+      <div class="tool-name">ポケモン情報検索</div>
+      <div class="tool-desc-ja">名前の一部から素早くポケモンの種族値・進化・図鑑情報を検索。</div>
+      <div class="tool-desc-en">Quick Pokémon lookup — stats, evolutions &amp; Pokédex entries.</div>
+      <div class="tag">TOOL · HTML</div>
+    </a>
+
+    <!-- 以下、ツールを追加する場合はこのブロックをコピーしてください -->
+    <!--
+    <a class="tool-card" href="./your-tool/">
+      <div class="icon">🛠️</div>
+      <div class="tool-name">ツール名</div>
+      <div class="tool-desc-ja">説明（日本語）</div>
+      <div class="tool-desc-en">Description in English.</div>
+      <div class="tag">TOOL · TYPE</div>
+    </a>
+    -->
+
+  </div>
+
+  <footer>
+    <div class="footer-brand">Tsundere Systems, Inc.</div>
+    <div class="footer-copy">© 2025 Tsundere Systems, Inc. — All tools built in collaboration with AI.</div>
+    <br>
+    <a class="x-link" href="https://x.com/TsundereSystems" target="_blank" rel="noopener">
+      ✕ @TsundereSystems
+    </a>
+  </footer>
+
+</div>
+</body>
+</html>
